@@ -10,7 +10,7 @@ CREATE TABLE "public"."workspaces" (
 	"workspaceId" serial NOT NULL,
 	"name" TEXT NOT NULL,
 	"description" TEXT NOT NULL,
-	"createdAt" timestamp with time zone NOT NULL,
+	"createdAt" timestamp with time zone not null default now(),
 	CONSTRAINT "workspaces_pk" PRIMARY KEY ("workspaceId")
 ) WITH (
   OIDS=FALSE

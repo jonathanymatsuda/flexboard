@@ -13,22 +13,24 @@ export default function WorkspaceForm(props) {
             </div>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
+            <form>
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                     Workspace Name
                   </label>
                   <div className="mt-1">
                     <input
-                      type="email"
-                      name="email"
-                      id="email"
+                      type="text"
+                      name="name"
+                      id="name"
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-2 py-2"
-                      placeholder="Marketing Project"
+                      placeholder="PED Team - Irvine, CA 😎"
+                      required
                     />
                  </div>
+                 <p className="mt-2 text-xs text-gray-500 mb-10">This could be the name of your company, team or a project you are working on.</p>
                 </div>
                   <div>
                     <div className='flex justify-between'>
@@ -57,7 +59,7 @@ export default function WorkspaceForm(props) {
                     type="submit"
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Create
+                    Create Workspace
                   </button>
                 </div>
               </div>
