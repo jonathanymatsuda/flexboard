@@ -1,7 +1,52 @@
 import React from 'react';
 
-export default function WorkspaceForm(props) {
-  return (
+export default class WorkspaceForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      description: ''
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  handleDescriptionChange(event) {
+    this.setState({
+      description: event.target.value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const newWorkspace = JSON.stringify({
+      name: this.state.name,
+      description: this.state.description
+    });
+    fetch('/api/workspaces', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: newWorkspace
+    })
+      .then(response => response.json())
+      .then(result => {
+        this.setState({ name: '' });
+        this.setState({ description: '' });
+      })
+      .catch(err => console.error(err));
+  }
+
+  render() {
+    return (
       <div className="space-y-8 divide-y divide-gray-200 px-40 pt-5 mt-10">
         <div className="md:grid md:grid-cols-3 md:gap-6 py-2">
           <div className="md:col-span-1">
@@ -13,7 +58,7 @@ export default function WorkspaceForm(props) {
             </div>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div>
@@ -25,8 +70,11 @@ export default function WorkspaceForm(props) {
                       type="text"
                       name="name"
                       id="name"
+                      autoFocus
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-2 py-2"
                       placeholder="PED Team - Irvine, CA 😎"
+                      value={this.state.name}
+                      onChange={this.handleNameChange}
                       required
                     />
                  </div>
@@ -48,7 +96,8 @@ export default function WorkspaceForm(props) {
                         rows={3}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-2 py-2 resize-none h-64"
                         placeholder="Our team loves to organize all projects using Flexboard!"
-                        defaultValue={''}
+                        value={this.state.description}
+                        onChange={this.handleDescriptionChange}
                       />
                     </div>
                   </div>
@@ -67,5 +116,6 @@ export default function WorkspaceForm(props) {
           </div>
         </div>
       </div>
-  );
+    );
+  }
 }
