@@ -12,8 +12,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function PageHeader() {
-  return (
+export default class PageHeader extends React.Component {
+  render() {
+    return (
     <Disclosure as="nav" className="bg-indigo-600">
       {({ open }) => (
         <>
@@ -36,7 +37,7 @@ export default function PageHeader() {
                 <div className="flex-shrink-0 flex items-center">
                   <img
                     className="h-8 w-auto mr-1"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
                     alt="Workflow"
                   />
                   <h2 className='text-white font-bold'>Flexboard</h2>
@@ -64,5 +65,6 @@ export default function PageHeader() {
         </>
       )}
     </Disclosure>
-  );
+    );
+  }
 }
