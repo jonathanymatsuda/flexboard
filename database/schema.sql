@@ -9,7 +9,7 @@ create schema "public";
 CREATE TABLE "public"."workspaces" (
 	"workspaceId" serial NOT NULL,
 	"name" TEXT NOT NULL,
-	"description" TEXT NOT NULL,
+	"description" TEXT,
 	"createdAt" timestamp with time zone not null default now(),
 	CONSTRAINT "workspaces_pk" PRIMARY KEY ("workspaceId")
 ) WITH (

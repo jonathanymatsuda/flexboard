@@ -26,23 +26,37 @@ export default class WorkspaceForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newWorkspace = JSON.stringify({
-      name: this.state.name,
-      description: this.state.description
-    });
-    fetch('/api/workspaces', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: newWorkspace
-    })
-      .then(response => response.json())
-      .then(result => {
-        this.setState({ name: '' });
-        this.setState({ description: '' });
+    if (this.state.description === '') {
+      const newWorkspaceNoDescription = JSON.stringify({ name: this.state.name, description: null });
+      fetch('/api/workspaces', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: newWorkspaceNoDescription
       })
-      .catch(err => console.error(err));
+        .then(response => response.json())
+        .then(result => {
+          this.setState({ name: '' });
+          this.setState({ description: '' });
+        })
+        .catch(err => console.error(err));
+    } else {
+      const newWorkspace = JSON.stringify({ name: this.state.name, description: this.state.description });
+      fetch('/api/workspaces', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: newWorkspace
+      })
+        .then(response => response.json())
+        .then(result => {
+          this.setState({ name: '' });
+          this.setState({ description: '' });
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   render() {
