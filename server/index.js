@@ -20,6 +20,18 @@ const jsonMiddleware = express.json();
 
 app.use(jsonMiddleware);
 
+app.get('/api/workspaces', (req, res, next) => {
+  const sql = `
+  select *
+    from "workspaces"
+   `;
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/workspaces', (req, res, next) => {
   const { name, description } = req.body;
   if (!name) {
