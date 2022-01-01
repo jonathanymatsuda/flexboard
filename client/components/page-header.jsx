@@ -3,7 +3,8 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 const navigation = [
-  { name: 'Active Workspaces', href: '#', current: true },
+  { name: 'Create Workspace', href: '#', current: true },
+  { name: 'Active Workspaces', href: '#', current: false },
   { name: 'Boards', href: '#', current: false }
 ];
 
