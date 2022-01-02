@@ -48,7 +48,7 @@ export default class WorkspaceForm extends React.Component {
 
   render() {
     return (
-      <div className="space-y-8 divide-y divide-gray-200 px-40 pt-5 mt-10">
+      <div className="space-y-8 divide-y divide-gray-200 px-28 pt-5 mt-10">
         <div className="md:grid md:grid-cols-3 md:gap-6 py-2">
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">

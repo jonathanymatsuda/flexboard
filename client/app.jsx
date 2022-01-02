@@ -32,14 +32,14 @@ export default class App extends React.Component {
 
   render() {
     const createWorkspaceTabToggle = window.location.hash === ''
-      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium block'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     const activeWorkspacesTabToggle = window.location.hash === '#activeworkspaces'
-      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium block'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     const boardTabActiveToggle = window.location.hash === '#boards'
-      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium block'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     return (
       <>
         <Disclosure as="nav" className="bg-indigo-600">
@@ -79,11 +79,21 @@ export default class App extends React.Component {
                   </div>
                 </div>
               </div>
+
+              <Disclosure.Panel className="sm:hidden">
+                <div className="px-2 pt-2 pb-3 space-y-1">
+                  <Disclosure.Button className='text-left'>
+                   <a as="a" href='#' className={createWorkspaceTabToggle}>Create Workspace</a>
+                   <a as="a" href='#activeworkspaces' className={activeWorkspacesTabToggle}>Active Workspaces</a>
+                   <a as="a" href='#boards' className={boardTabActiveToggle}>Boards</a>
+                 </Disclosure.Button>
+                </div>
+              </Disclosure.Panel>
             </>
           )}
         </Disclosure>
         { this.renderPage() }
-      </>
+     </>
     );
   }
 }
