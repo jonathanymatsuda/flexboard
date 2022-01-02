@@ -5,16 +5,6 @@ import WorkspaceForm from './components/workspace-form';
 import WorkspaceListView from './pages/workspace-listview';
 import parseRoute from './lib/parse-route';
 
-const navigation = [
-  { name: 'Create Workspace', href: '#', current: true },
-  { name: 'Active Workspaces', href: '#activeworkspaces', current: false },
-  { name: 'Boards', href: '#', current: false }
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -41,6 +31,15 @@ export default class App extends React.Component {
   }
 
   render() {
+    const createWorkspaceTabToggle = window.location.hash === ''
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+    const activeWorkspacesTabToggle = window.location.hash === '#activeworkspaces'
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+    const boardTabActiveToggle = window.location.hash === '#boards'
+      ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+      : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
     return (
       <>
         <Disclosure as="nav" className="bg-indigo-600">
@@ -72,19 +71,9 @@ export default class App extends React.Component {
                     </div>
                     <div className="hidden sm:block sm:ml-6">
                       <div className="flex space-x-4">
-                        {navigation.map(item => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className={classNames(
-                              item.current ? 'bg-indigo-700 text-white' : 'text-gray-300 hover:bg-indigo-700 hover:text-white',
-                              'px-3 py-2 rounded-md text-sm font-medium'
-                            )}
-                            aria-current={item.current ? 'page' : undefined}
-                          >
-                            {item.name}
-                          </a>
-                        ))}
+                        <a href='#' className={createWorkspaceTabToggle}>Create Workspace</a>
+                        <a href='#activeworkspaces' className={activeWorkspacesTabToggle}>Active Workspaces</a>
+                        <a href='#boards' className={boardTabActiveToggle}>Boards</a>
                       </div>
                     </div>
                   </div>
