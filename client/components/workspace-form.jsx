@@ -41,13 +41,14 @@ export default class WorkspaceForm extends React.Component {
       .then(result => {
         this.setState({ name: '' });
         this.setState({ description: '' });
+        window.location.hash = 'activeworkspaces';
       })
       .catch(err => console.error(err));
   }
 
   render() {
     return (
-      <div className="space-y-8 divide-y divide-gray-200 px-40 pt-5 mt-10">
+      <div className="space-y-8 divide-y divide-gray-200 px-28 pt-5 mt-10">
         <div className="md:grid md:grid-cols-3 md:gap-6 py-2">
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
@@ -93,7 +94,6 @@ export default class WorkspaceForm extends React.Component {
                       <textarea
                         id="description"
                         name="description"
-                        rows={3}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-2 py-2 resize-none h-64"
                         placeholder="Our team loves to organize all projects using Flexboard!"
                         value={this.state.description}
