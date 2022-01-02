@@ -41,6 +41,7 @@ export default class WorkspaceForm extends React.Component {
       .then(result => {
         this.setState({ name: '' });
         this.setState({ description: '' });
+        window.location.hash = 'activeworkspaces';
       })
       .catch(err => console.error(err));
   }

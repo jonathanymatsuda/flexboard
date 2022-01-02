@@ -17,6 +17,9 @@ export default class WorkspaceListView extends React.Component {
   }
 
   render() {
+    const noWorkspaceTextClass = this.state.workspaces.length === 0
+      ? 'text-gray-500 text-xs font-medium tracking-wide'
+      : 'hidden';
     return (
     <div className='p-8'>
       <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">Active Workspaces</h2>
@@ -39,15 +42,17 @@ export default class WorkspaceListView extends React.Component {
           </li>
         ))}
       </ul>
-      <div className='text-center'>
-        <h2 className="text-gray-500 text-xs font-medium tracking-wide">Looks like there are no workspaces created! Please go to Create Workspace to get started 🚀 </h2>
-        <button
-          type="button"
+      <div className='text-center mt-5'>
+        <h2 className={noWorkspaceTextClass}>Looks like there are no workspaces created! Please go to Create Workspace to get started 🚀 </h2>
+      </div>
+      <div className='text-center mt-6'>
+        <a
+          href='#'
           className="inline-flex items-center text-center px-6 py-2 border border-transparent shadow-sm text-base font-medium rounded-full text-black bg-gray-200 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
         >
-          <PlusIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
+          <PlusIcon className="-ml-1 mr-3 h-5 w-5 text-gray-500" aria-hidden="true" />
           Create New Workspace
-        </button>
+        </a>
       </div>
     </div>
     );
