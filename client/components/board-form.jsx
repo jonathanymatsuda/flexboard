@@ -29,6 +29,7 @@ export default class BoardForm extends React.Component {
       .then(response => response.json())
       .then(result => {
         this.setState({ title: '' });
+        window.location.hash = `#boards?workspaceId=${this.props.workspaceId}`;
       })
       .catch(err => console.error(err));
   }
