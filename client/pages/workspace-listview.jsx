@@ -13,7 +13,7 @@ export default class WorkspaceListView extends React.Component {
     fetch('/api/workspaces')
       .then(res => res.json())
       .then(workspacePanels => this.setState({ workspaces: workspacePanels }))
-      .then(err => console.error(err));
+      .catch(err => console.error(err));
   }
 
   render() {

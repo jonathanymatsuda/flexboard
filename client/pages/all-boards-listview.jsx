@@ -12,7 +12,7 @@ export default class AllBoardsListView extends React.Component {
     fetch('/api/boards')
       .then(res => res.json())
       .then(boardsPanels => this.setState({ boards: boardsPanels }))
-      .then(err => console.error(err));
+      .catch(err => console.error(err));
   }
 
   render() {
