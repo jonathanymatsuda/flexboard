@@ -51,6 +51,35 @@ app.post('/api/workspaces', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/boards', (req, res, next) => {
+  const sql = `
+  select *
+    from "boards"
+    `;
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/boards/:workspaceId', (req, res, next) => {
+  const workspaceId = Number(req.params.workspaceId);
+  const sql = `
+  select "boardId",
+         "workspaceId",
+         "title"
+    from "boards"
+  where "workspaceId" = $1
+    `;
+  const params = [workspaceId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/boards', (req, res, next) => {
   const { title, workspaceId } = req.body;
   if (!title) {

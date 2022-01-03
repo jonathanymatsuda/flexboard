@@ -13,7 +13,7 @@ export default class WorkspaceListView extends React.Component {
     fetch('/api/workspaces')
       .then(res => res.json())
       .then(workspacePanels => this.setState({ workspaces: workspacePanels }))
-      .then(err => console.error(err));
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -29,7 +29,7 @@ export default class WorkspaceListView extends React.Component {
             <div
               className='flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md bg-blue-500'
             >
-              WS{workspace.workspaceId}
+              WS-{workspace.workspaceId}
             </div>
             <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
               <div className="flex-1 px-4 py-2 text-sm truncate whitespace-normal">

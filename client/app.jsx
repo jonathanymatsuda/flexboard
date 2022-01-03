@@ -3,6 +3,7 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import WorkspaceForm from './components/workspace-form';
 import WorkspaceListView from './pages/workspace-listview';
+import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
 import parseRoute from './lib/parse-route';
@@ -29,6 +30,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'activeworkspaces') {
       return <WorkspaceListView />;
+    }
+    if (route.path === 'allboards') {
+      return <AllBoardsListView />;
     }
     if (route.path === 'boards') {
       const workspaceId = route.params.get('workspaceId');
