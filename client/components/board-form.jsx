@@ -5,7 +5,7 @@ export default class BoardForm extends React.Component {
     super(props);
     this.state = {
       title: '',
-      workspaceId: '2' // placeholder
+      workspaceId: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,7 +19,7 @@ export default class BoardForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newBoard = JSON.stringify({ title: this.state.title, workspaceId: this.state.workspaceId }); // placholder
+    const newBoard = JSON.stringify({ title: this.state.title, workspaceId: this.props.workspaceId });
     fetch('/api/boards', {
       method: 'POST',
       headers: {
@@ -30,7 +30,7 @@ export default class BoardForm extends React.Component {
       .then(response => response.json())
       .then(result => {
         this.setState({ title: '' });
-        this.setState({ workspaceId: '2' }); // placeholder
+        this.setState({ workspaceId: '' });
       })
       .catch(err => console.error(err));
   }
