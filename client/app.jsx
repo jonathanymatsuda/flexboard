@@ -3,6 +3,7 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import WorkspaceForm from './components/workspace-form';
 import WorkspaceListView from './pages/workspace-listview';
+import BoardForm from './components/board-form';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -27,6 +28,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'activeworkspaces') {
       return <WorkspaceListView />;
+    }
+    if (route.path === 'boards') {
+      return <BoardForm />;
     }
   }
 
