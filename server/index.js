@@ -51,13 +51,21 @@ app.post('/api/workspaces', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/boards', (req, res, next) => {
+app.get('/api/boards/:workspaceId', (req, res, next) => {
+  const workspaceId = Number(req.params.workspaceId);
   const sql = `
-  select *
+  select "boardId",
+         "workspaceId",
+         "title"
     from "boards"
+  where "workspaceId" = $1
     `;
-  db.query(sql)
+  const params = [workspaceId];
+  db.query(sql, params)
     .then(result => {
+      if (!result.rows[0]) {
+        throw new ClientError(404, `cannot find workspaceId ${workspaceId}`);
+      }
       res.json(result.rows);
     })
     .catch(err => next(err));
