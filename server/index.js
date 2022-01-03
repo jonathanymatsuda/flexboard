@@ -51,6 +51,18 @@ app.post('/api/workspaces', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/boards', (req, res, next) => {
+  const sql = `
+  select *
+    from "boards"
+    `;
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/boards', (req, res, next) => {
   const { title, workspaceId } = req.body;
   if (!title) {
