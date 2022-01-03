@@ -4,8 +4,7 @@ export default class BoardForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      workspaceId: ''
+      title: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +29,6 @@ export default class BoardForm extends React.Component {
       .then(response => response.json())
       .then(result => {
         this.setState({ title: '' });
-        this.setState({ workspaceId: '' });
       })
       .catch(err => console.error(err));
   }
