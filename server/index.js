@@ -51,6 +51,27 @@ app.post('/api/workspaces', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/boards', (req, res, next) => {
+  const { title, workspaceId } = req.body;
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  } else if (!workspaceId) {
+    throw new ClientError(400, 'workspace must be defined');
+  }
+  const sql = `
+  insert into "boards" ("title", "workspaceId")
+  values ($1, $2)
+  returning *
+  `;
+  const params = [title, workspaceId];
+  db.query(sql, params)
+    .then(result => {
+      const board = result.rows[0];
+      res.status(201).json(board);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
