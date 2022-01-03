@@ -3,6 +3,8 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import WorkspaceForm from './components/workspace-form';
 import WorkspaceListView from './pages/workspace-listview';
+import BoardForm from './components/board-form';
+import BoardListView from './pages/board-listview';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -22,11 +24,19 @@ export default class App extends React.Component {
 
   renderPage() {
     const { route } = this.state;
-    if (route.path === '' || route.path === 'workspaceform') {
+    if (route.path === '') {
       return <WorkspaceForm />;
     }
     if (route.path === 'activeworkspaces') {
       return <WorkspaceListView />;
+    }
+    if (route.path === 'boards') {
+      const workspaceId = route.params.get('workspaceId');
+      return <BoardListView workspaceId={workspaceId} />;
+    }
+    if (route.path === 'boardform') {
+      const workspaceId = route.params.get('workspaceId');
+      return <BoardForm workspaceId={workspaceId} />;
     }
   }
 
@@ -37,7 +47,7 @@ export default class App extends React.Component {
     const activeWorkspacesTabToggle = window.location.hash === '#activeworkspaces'
       ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium block'
       : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
-    const boardTabActiveToggle = window.location.hash === '#boards'
+    const boardTabActiveToggle = window.location.hash === '#allboards'
       ? 'bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium block'
       : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     return (
@@ -73,7 +83,7 @@ export default class App extends React.Component {
                       <div className="flex space-x-4">
                         <a href='#' className={createWorkspaceTabToggle}>Create Workspace</a>
                         <a href='#activeworkspaces' className={activeWorkspacesTabToggle}>Active Workspaces</a>
-                        <a href='#boards' className={boardTabActiveToggle}>Boards</a>
+                        <a href='#allboards' className={boardTabActiveToggle}>All Boards</a>
                       </div>
                     </div>
                   </div>
@@ -85,7 +95,7 @@ export default class App extends React.Component {
                   <Disclosure.Button className='text-left'>
                    <a as="a" href='#' className={createWorkspaceTabToggle}>Create Workspace</a>
                    <a as="a" href='#activeworkspaces' className={activeWorkspacesTabToggle}>Active Workspaces</a>
-                   <a as="a" href='#boards' className={boardTabActiveToggle}>Boards</a>
+                   <a as="a" href='#allboards' className={boardTabActiveToggle}>All Boards</a>
                  </Disclosure.Button>
                 </div>
               </Disclosure.Panel>
