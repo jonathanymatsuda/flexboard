@@ -66,9 +66,7 @@ app.get('/api/boards', (req, res, next) => {
 app.get('/api/boards/:workspaceId', (req, res, next) => {
   const workspaceId = Number(req.params.workspaceId);
   const sql = `
-  select "boardId",
-         "workspaceId",
-         "title"
+  select *
     from "boards"
   where "workspaceId" = $1
     `;
@@ -97,6 +95,22 @@ app.post('/api/boards', (req, res, next) => {
     .then(result => {
       const board = result.rows[0];
       res.status(201).json(board);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/lists/:boardId', (req, res, next) => {
+  const boardId = Number(req.params.boardId);
+  const sql = `
+  select "title",
+         "boardId"
+      from "lists"
+   where "boardId" = $1
+  `;
+  const params = [boardId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows);
     })
     .catch(err => next(err));
 });

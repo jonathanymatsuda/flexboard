@@ -13,7 +13,7 @@ export default class BoardListView extends React.Component {
     fetch(`/api/boards/${this.props.workspaceId}`)
       .then(res => res.json())
       .then(boardPanels => this.setState({ boards: boardPanels }))
-      .then(err => console.error(err));
+      .catch(err => console.error(err));
   }
 
   render() {
