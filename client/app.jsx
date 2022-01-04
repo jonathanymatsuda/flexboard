@@ -6,6 +6,7 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
+import BoardSpaceBanner from './components/board-space-banner';
 import Lists from './components/lists';
 import parseRoute from './lib/parse-route';
 
@@ -45,7 +46,12 @@ export default class App extends React.Component {
     }
     if (route.path === 'boardspace') {
       const boardId = route.params.get('boardId');
-      return <Lists boardId={boardId}/>;
+      return (
+        <>
+          <BoardSpaceBanner boardId={boardId}/>
+          <Lists boardId={boardId} />;
+        </>
+      );
     }
   }
 
