@@ -66,14 +66,14 @@ app.get('/api/boards', (req, res, next) => {
 app.get('/api/boards/:boardId', (req, res, next) => {
   const boardId = Number(req.params.boardId);
   const sql = `
-  select "title"
+  select *
     from "boards"
   where "boardId" = $1
   `;
   const params = [boardId];
   db.query(sql, params)
     .then(result => {
-      res.json(result.rows);
+      res.json(result.rows[0]);
     })
     .catch(err => next(err));
 });
@@ -117,8 +117,7 @@ app.post('/api/boards', (req, res, next) => {
 app.get('/api/lists/:boardId', (req, res, next) => {
   const boardId = Number(req.params.boardId);
   const sql = `
-  select "title",
-         "boardId"
+  select *
       from "lists"
    where "boardId" = $1
   `;

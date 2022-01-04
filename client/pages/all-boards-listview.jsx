@@ -32,7 +32,7 @@ export default class AllBoardsListView extends React.Component {
               </div>
               <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                 <div className="flex-1 px-4 py-2 text-sm truncate whitespace-normal">
-                  <a href={`#boardspace?boardId=${board.boardId}`}className="text-gray-900 font-medium hover:text-gray-600">
+                  <a href={`#kanban?boardId=${board.boardId}`}className="text-gray-900 font-medium hover:text-gray-600">
                     {board.title}
                   </a>
                   <p className="text-xs text-gray-500">From Workspace {board.workspaceId}</p>

@@ -6,8 +6,8 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
-import BoardSpaceBanner from './components/board-space-banner';
-import Lists from './components/lists';
+import Kanban from './pages/kanban';
+import KanbanBanner from './components/board-space-banner';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -44,13 +44,13 @@ export default class App extends React.Component {
       const workspaceId = route.params.get('workspaceId');
       return <BoardForm workspaceId={workspaceId} />;
     }
-    if (route.path === 'boardspace') {
+    if (route.path === 'kanban') {
       const boardId = route.params.get('boardId');
       return (
-        <>
-          <BoardSpaceBanner boardId={boardId}/>
-          <Lists boardId={boardId} />;
-        </>
+        <div>
+          <KanbanBanner boardId={boardId} />
+          <Kanban boardId={boardId}/>
+        </div>
       );
     }
   }
@@ -117,7 +117,7 @@ export default class App extends React.Component {
             </>
           )}
         </Disclosure>
-        { this.renderPage() }
+       { this.renderPage() }
      </>
     );
   }
