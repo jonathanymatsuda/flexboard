@@ -101,6 +101,26 @@ app.post('/api/boards', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/lists/:boardId', (req, res, next) => {
+  const { title, sortOrder } = req.body;
+  const boardId = Number(req.params.boardId);
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  }
+  const sql = `
+  insert into "lists" ("title", "boardId", "sortOrder")
+  values ($1, $2, $3)
+  returning *
+  `;
+  const params = [title, boardId, sortOrder];
+  db.query(sql, params)
+    .then(result => {
+      const list = result.rows[0];
+      res.status(201).json(list);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
