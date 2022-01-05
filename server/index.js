@@ -129,9 +129,8 @@ app.get('/api/lists/:boardId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/lists/:boardId', (req, res, next) => {
-  const { title, sortOrder } = req.body;
-  const boardId = Number(req.params.boardId);
+app.post('/api/lists', (req, res, next) => {
+  const { title, sortOrder, boardId } = req.body;
   if (!title) {
     throw new ClientError(400, 'title is a required field');
   }
