@@ -1,4 +1,5 @@
 import React from 'react';
+import KanbanBanner from './kanban-banner';
 
 export default class Lists extends React.Component {
   constructor(props) {
@@ -6,6 +7,7 @@ export default class Lists extends React.Component {
     this.state = {
       lists: []
     };
+    this.addList = this.addList.bind(this);
   }
 
   componentDidMount() {
@@ -16,7 +18,7 @@ export default class Lists extends React.Component {
   }
 
   addList(newList) {
-    fetch('/api/todos', {
+    fetch('/api/lists', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -24,24 +26,27 @@ export default class Lists extends React.Component {
       body: JSON.stringify(newList)
     })
       .then(res => res.json())
-      .then(newList => this.setState({ todos: this.state.lists.concat(newList) }))
+      .then(newList => this.setState({ lists: this.state.lists.concat(newList) }))
       .catch(err => console.error(err));
   }
 
   render(props) {
     return (
-    <div className="h-screen w-screen bg-cyan-50 absolute">
-      <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
-        {this.state.lists.map(list => (
-          <div
-            key={list.listId}
-            className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
-          >
-            <h3 className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
-          </div>
-        ))}
-      </div>
-    </div>
+     <>
+       <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId}/>
+       <div className="h-screen w-screen bg-cyan-50 absolute">
+         <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
+           {this.state.lists.map(list => (
+             <div
+               key={list.listId}
+               className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
+             >
+               <h3 className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
+             </div>
+           ))}
+         </div>
+       </div>
+     </>
     );
   }
 }

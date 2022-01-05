@@ -7,7 +7,6 @@ import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
 import Lists from './components/lists';
-import KanbanBanner from './components/kanban-banner';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -48,7 +47,6 @@ export default class App extends React.Component {
       const boardId = route.params.get('boardId');
       return (
         <div>
-          <KanbanBanner boardId={boardId} />
           <Lists boardId={boardId}/>
         </div>
       );

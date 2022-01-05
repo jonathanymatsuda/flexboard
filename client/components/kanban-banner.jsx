@@ -32,19 +32,13 @@ export default class KanbanBanner extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newList = JSON.stringify({ title: this.state.title, boardId: this.props.boardId, sortOrder: this.state.sortOrder });
-    fetch('/api/lists', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: newList
-    })
-      .then(response => response.json())
-      .then(result => {
-        this.setState({ title: '', sortOrder: this.state.sortOrder + 1 });
-      })
-      .catch(err => console.error(err));
+    const newList = {
+      title: this.state.title,
+      sortOrder: this.state.sortOrder,
+      boardId: this.props.boardId
+    };
+    this.props.onSubmit(newList);
+    this.setState({ title: '', sortOrder: this.state.sortOrder + 1 });
   }
 
   render() {
