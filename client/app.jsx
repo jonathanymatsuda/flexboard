@@ -6,8 +6,8 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
-import Kanban from './pages/kanban';
-import KanbanBanner from './components/board-space-banner';
+import Lists from './components/lists';
+import KanbanBanner from './components/kanban-banner';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -49,7 +49,7 @@ export default class App extends React.Component {
       return (
         <div>
           <KanbanBanner boardId={boardId} />
-          <Kanban boardId={boardId}/>
+          <Lists boardId={boardId}/>
         </div>
       );
     }

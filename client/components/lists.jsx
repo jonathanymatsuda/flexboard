@@ -17,16 +17,18 @@ export default class Lists extends React.Component {
 
   render() {
     return (
-      <div className="relative px-8 mt-10 flex gap-x-8 overflow-hidden z-0">
+    <div className="h-screen w-screen bg-cyan-50 absolute">
+      <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
         {this.state.lists.map(list => (
           <div
             key={list.listId}
-            className="relative p-8 bg-white border border-gray-200 rounded-2xl shadow-sm w-full"
+            className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
           >
-            <h3 className="text-xl text-center font-semibold text-gray-900">{list.title}</h3>
+            <h3 className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
           </div>
         ))}
       </div>
+    </div>
     );
   }
 }
