@@ -130,7 +130,7 @@ app.get('/api/lists/:boardId', (req, res, next) => {
 });
 
 app.post('/api/lists', (req, res, next) => {
-  const { title, sortOrder, boardId } = req.body;
+  const { title, boardId, sortOrder } = req.body;
   if (!title) {
     throw new ClientError(400, 'title is a required field');
   }
