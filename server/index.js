@@ -63,12 +63,10 @@ app.get('/api/boards', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/boards/:workspaceId', (req, res, next) => {
+app.get('/api/workspaces/:workspaceId/boards', (req, res, next) => {
   const workspaceId = Number(req.params.workspaceId);
   const sql = `
-  select "boardId",
-         "workspaceId",
-         "title"
+  select *
     from "boards"
   where "workspaceId" = $1
     `;
@@ -97,6 +95,46 @@ app.post('/api/boards', (req, res, next) => {
     .then(result => {
       const board = result.rows[0];
       res.status(201).json(board);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/boards/:boardId', (req, res, next) => {
+  const boardId = Number(req.params.boardId);
+  const sql = `
+  select "b".*,
+      coalesce(json_agg("l" order by "l"."sortOrder")
+      filter (where "l"."listId" is not null), '[]'::json) as "lists"
+      from "boards" as "b"
+    left join "lists" as "l" using ("boardId")
+   where "b"."boardId" = $1
+   group by "b"."boardId"
+  `;
+  const params = [boardId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/lists', (req, res, next) => {
+  const { title, boardId, sortOrder } = req.body;
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  } else if (!boardId || !sortOrder) {
+    throw new ClientError(400, 'boardId and sortOrder must be defined');
+  }
+  const sql = `
+  insert into "lists" ("title", "boardId", "sortOrder")
+  values ($1, $2, $3)
+  returning *
+  `;
+  const params = [title, boardId, sortOrder];
+  db.query(sql, params)
+    .then(result => {
+      const list = result.rows[0];
+      res.status(201).json(list);
     })
     .catch(err => next(err));
 });

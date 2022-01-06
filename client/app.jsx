@@ -6,6 +6,7 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
+import Lists from './components/boards';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -42,6 +43,10 @@ export default class App extends React.Component {
       const workspaceId = route.params.get('workspaceId');
       return <BoardForm workspaceId={workspaceId} />;
     }
+    if (route.path === 'kanban') {
+      const boardId = route.params.get('boardId');
+      return <Lists boardId={boardId}/>;
+    }
   }
 
   render() {
@@ -56,10 +61,10 @@ export default class App extends React.Component {
       : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     return (
       <>
-        <Disclosure as="nav" className="bg-indigo-600">
+        <Disclosure as="nav" className="sticky top-0 bg-indigo-600">
           {({ open }) => (
             <>
-              <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+              <div className="mx-auto sm:px-6">
                 <div className="relative flex items-center justify-between h-16">
                   <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                     {/* Mobile menu button */}
@@ -106,7 +111,7 @@ export default class App extends React.Component {
             </>
           )}
         </Disclosure>
-        { this.renderPage() }
+       { this.renderPage() }
      </>
     );
   }
