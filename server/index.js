@@ -122,6 +122,8 @@ app.post('/api/lists', (req, res, next) => {
   const { title, boardId, sortOrder } = req.body;
   if (!title) {
     throw new ClientError(400, 'title is a required field');
+  } else if (!boardId || !sortOrder) {
+    throw new ClientError(400, 'boardId and sortOrder must be defined');
   }
   const sql = `
   insert into "lists" ("title", "boardId", "sortOrder")
