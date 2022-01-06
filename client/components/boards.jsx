@@ -13,7 +13,7 @@ export default class Lists extends React.Component {
   componentDidMount() {
     fetch(`/api/boards/${this.props.boardId}`)
       .then(res => res.json())
-      .then(board => this.setState({ lists: board.lists }))
+      .then(board => this.setState({ lists: board.lists, boardTitle: board.title }))
       .catch(err => console.error(err));
   }
 
@@ -35,7 +35,7 @@ export default class Lists extends React.Component {
     if (!this.state.lists) return null;
     return (
      <>
-       <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} />
+       <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} boardTitle={this.state.boardTitle} />
        <div className="h-screen absolute">
          <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
            {this.state.lists.map(list => (
