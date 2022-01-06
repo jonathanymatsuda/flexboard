@@ -63,38 +63,6 @@ app.get('/api/boards', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.get('/api/boards/:boardId', (req, res, next) => {
-//   const boardId = Number(req.params.boardId);
-//   const sql = `
-//   select *
-//     from "boards"
-//   where "boardId" = $1
-//   `;
-//   const params = [boardId];
-//   db.query(sql, params)
-//     .then(result => {
-//       res.json(result.rows[0]);
-//     })
-//     .catch(err => next(err));
-// });
-
-// app.get('/api/boards/:boardId', (req, res, next) => {
-//   const boardId = Number(req.params.boardId);
-//   const sql = `
-//   select *
-//     from "lists"
-//    join "boards" using ("boardId")
-//    where "boardId" = $1
-//   order by "sortOrder" asc
-//   `;
-//   const params = [boardId];
-//   db.query(sql, params)
-//     .then(result => {
-//       res.json(result.rows);
-//     })
-//     .catch(err => next(err));
-// });
-
 app.get('/api/workspaces/:workspaceId/boards', (req, res, next) => {
   const workspaceId = Number(req.params.workspaceId);
   const sql = `

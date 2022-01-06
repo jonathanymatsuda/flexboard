@@ -6,7 +6,7 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
-import Lists from './components/lists';
+import Lists from './components/boards';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
