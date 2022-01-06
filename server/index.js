@@ -63,20 +63,37 @@ app.get('/api/boards', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/boards/:boardId', (req, res, next) => {
-  const boardId = Number(req.params.boardId);
-  const sql = `
-  select *
-    from "boards"
-  where "boardId" = $1
-  `;
-  const params = [boardId];
-  db.query(sql, params)
-    .then(result => {
-      res.json(result.rows[0]);
-    })
-    .catch(err => next(err));
-});
+// app.get('/api/boards/:boardId', (req, res, next) => {
+//   const boardId = Number(req.params.boardId);
+//   const sql = `
+//   select *
+//     from "boards"
+//   where "boardId" = $1
+//   `;
+//   const params = [boardId];
+//   db.query(sql, params)
+//     .then(result => {
+//       res.json(result.rows[0]);
+//     })
+//     .catch(err => next(err));
+// });
+
+// app.get('/api/boards/:boardId', (req, res, next) => {
+//   const boardId = Number(req.params.boardId);
+//   const sql = `
+//   select *
+//     from "lists"
+//    join "boards" using ("boardId")
+//    where "boardId" = $1
+//   order by "sortOrder" asc
+//   `;
+//   const params = [boardId];
+//   db.query(sql, params)
+//     .then(result => {
+//       res.json(result.rows);
+//     })
+//     .catch(err => next(err));
+// });
 
 app.get('/api/workspaces/:workspaceId/boards', (req, res, next) => {
   const workspaceId = Number(req.params.workspaceId);
@@ -114,17 +131,21 @@ app.post('/api/boards', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/lists/:boardId', (req, res, next) => {
+app.get('/api/boards/:boardId', (req, res, next) => {
   const boardId = Number(req.params.boardId);
   const sql = `
-  select *
-      from "lists"
-   where "boardId" = $1
+  select "b".*,
+      coalesce(json_agg("l" order by "l"."sortOrder")
+      filter (where "l"."listId" is not null), '[]'::json) as "lists"
+      from "boards" as "b"
+    left join "lists" as "l" using ("boardId")
+   where "b"."boardId" = $1
+   group by "b"."boardId"
   `;
   const params = [boardId];
   db.query(sql, params)
     .then(result => {
-      res.json(result.rows);
+      res.json(result.rows[0]);
     })
     .catch(err => next(err));
 });

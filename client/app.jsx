@@ -45,11 +45,7 @@ export default class App extends React.Component {
     }
     if (route.path === 'kanban') {
       const boardId = route.params.get('boardId');
-      return (
-        <div>
-          <Lists boardId={boardId}/>
-        </div>
-      );
+      return <Lists boardId={boardId}/>;
     }
   }
 

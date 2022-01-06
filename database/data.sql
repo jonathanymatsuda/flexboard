@@ -13,6 +13,6 @@ values ('To Do', 1, 0),
        ('In progress', 1, 1),
        ('Complete', 1, 2),
        ('Backlog', 1, 3),
-       ('To Do', 2, 0),
-       ('In progress', 2, 1),
-       ('Finish', 2, 2);
+       ('To Do', 2, 2),
+       ('In progress', 2, 0),
+       ('Finish', 2, 1);

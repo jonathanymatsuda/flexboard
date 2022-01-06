@@ -5,7 +5,7 @@ export default class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: []
+      lists: null
     };
     this.addList = this.addList.bind(this);
   }
@@ -18,6 +18,7 @@ export default class Lists extends React.Component {
   }
 
   addList(newList) {
+    newList.sortOrder = this.state.lists.length;
     fetch('/api/lists', {
       method: 'POST',
       headers: {
@@ -28,6 +29,8 @@ export default class Lists extends React.Component {
       .then(res => res.json())
       .then(newList => this.setState({ lists: this.state.lists.concat(newList) }))
       .catch(err => console.error(err));
+    // console.log(newList);
+    // console.log(this.state.lists.length);
   }
 
   render(props) {

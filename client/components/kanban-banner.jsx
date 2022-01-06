@@ -10,8 +10,7 @@ export default class KanbanBanner extends React.Component {
     super(props);
     this.state = {
       board: '',
-      title: '',
-      sortOrder: 0
+      title: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,11 +33,11 @@ export default class KanbanBanner extends React.Component {
     event.preventDefault();
     const newList = {
       title: this.state.title,
-      sortOrder: this.state.sortOrder,
+      sortOrder: null,
       boardId: this.props.boardId
     };
     this.props.onSubmit(newList);
-    this.setState({ title: '', sortOrder: this.state.sortOrder + 1 });
+    this.setState({ title: '' });
   }
 
   render() {
