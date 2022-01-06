@@ -36,7 +36,7 @@ export default class Lists extends React.Component {
     return (
      <>
        <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} />
-       <div className="h-screen w-screen bg-cyan-50 absolute">
+       <div className="h-screen bg-cyan-50 absolute">
          <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
            {this.state.lists.map(list => (
              <div

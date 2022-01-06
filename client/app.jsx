@@ -61,10 +61,10 @@ export default class App extends React.Component {
       : 'text-gray-300 hover:bg-indigo-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium block';
     return (
       <>
-        <Disclosure as="nav" className="bg-indigo-600">
+        <Disclosure as="nav" className="sticky top-0 bg-indigo-600">
           {({ open }) => (
             <>
-              <div className="max-w-7xl mx-auto sm:px-6">
+              <div className="mx-auto sm:px-6">
                 <div className="relative flex items-center justify-between h-16">
                   <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                     {/* Mobile menu button */}
