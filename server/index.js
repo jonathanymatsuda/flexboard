@@ -139,6 +139,31 @@ app.post('/api/lists', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.patch('/api/lists/:listId', (req, res, next) => {
+  const { sortOrder } = req.body;
+  const listId = Number(req.params.listId);
+  if (!Number.isInteger(listId) || listId < 1) {
+    throw new ClientError(400, 'listId must be a positive integer');
+  }
+  const sql = `
+    update "lists"
+      set "sortOrder" = $1
+     where "listId = $2
+    returning *
+    `;
+  const params = [sortOrder, listId];
+  db.query(sql, params)
+    .then(result => {
+      const [list] = result.rows;
+      if (!listId) {
+        throw new ClientError(404, `cannot find list with listId ${listId}`);
+      } else {
+        res.status(201).json(list);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
