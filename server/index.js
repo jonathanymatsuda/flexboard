@@ -139,16 +139,37 @@ app.post('/api/lists', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.patch('/api/listorder', (req, res, next) => {
+  const sql = `
+  with "newSortOrder" as (
+   select "listId",
+        (row_number() over ()) - 1 as "sortOrder"
+  from unnest($1::integer[]) as "listId"
+  )
+  update "lists" as "l"
+    set "sortOrder" = "nso"."sortOrder"
+    from (select * from "newSortOrder") as "nso"
+   where "l"."listId" = "nso"."listId"
+  `;
+  const params = [req.body];
+  db.query(sql, params)
+    .then(result => {
+      res.end();
+      // console.log(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.patch('/api/lists/:listId', (req, res, next) => {
   const { sortOrder } = req.body;
   const listId = Number(req.params.listId);
-  if (!Number.isInteger(listId) || listId < 1) {
+  if (!Number.isInteger(listId) || listId < 0) {
     throw new ClientError(400, 'listId must be a positive integer');
   }
   const sql = `
     update "lists"
       set "sortOrder" = $1
-     where "listId = $2
+     where "listId" = $2
     returning *
     `;
   const params = [sortOrder, listId];
