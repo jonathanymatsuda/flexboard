@@ -166,6 +166,25 @@ app.patch('/api/listorder', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/lists/:listId', (req, res, next) => {
+  const listId = Number(req.params.listId);
+  const sql = `
+  select "l".*,
+      coalesce(json_agg("t" order by "t"."sortOrder")
+      filter (where "t"."taskId" is not null), '[]'::json) as "tasks"
+      from "lists" as "l"
+    left join "tasks" as "t" using ("listId")
+   where "l"."listId" = $1
+   group by "l"."listId"
+  `;
+  const params = [listId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

@@ -19,5 +19,5 @@ values ('To Do', 1, 0),
 insert into "tasks" ("title", "listId", "priority", "sortOrder")
 values ('Task 1', 1, false, 0),
        ('Task 2', 1, false, 1),
-       ('Task 3', 2, false, 2),
-       ('Task 4', 1, false, 3)
+       ('Task 3', 2, false, 0),
+       ('Task 4', 1, false, 2)
