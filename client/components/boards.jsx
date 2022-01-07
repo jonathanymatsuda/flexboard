@@ -1,13 +1,16 @@
 import React from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import KanbanBanner from './kanban-banner';
 
 export default class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: null
+      lists: null,
+      boardTitle: ''
     };
     this.addList = this.addList.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   componentDidMount() {
@@ -31,24 +34,68 @@ export default class Lists extends React.Component {
       .catch(err => console.error(err));
   }
 
+  onDragEnd(result) {
+    const { destination, source, type } = result;
+    if (!destination) {
+      return;
+    }
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+    if (type === 'column') {
+      const [newListOrder] = this.state.lists.splice(source.index, 1);
+      this.state.lists.splice(destination.index, 0, newListOrder);
+      this.setState({ lists: this.state.lists });
+      const listIdArray = [];
+      for (let list = 0; list < this.state.lists.length; list++) {
+        listIdArray.push(this.state.lists[list].listId);
+      }
+      fetch('/api/listorder', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(listIdArray)
+      })
+        .then(res => res.text())
+        .then(() => {
+          this.setState({ lists: this.state.lists });
+        })
+        .catch(err => console.error(err));
+    }
+  }
+
   render(props) {
     if (!this.state.lists) return null;
     return (
-     <>
-       <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} boardTitle={this.state.boardTitle} />
-       <div className="h-screen absolute">
-         <div className="relative mt-10 px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
-           {this.state.lists.map(list => (
-             <div
-               key={list.listId}
-               className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
-             >
-               <h3 className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
-             </div>
-           ))}
-         </div>
-       </div>
-     </>
+    <DragDropContext onDragEnd={this.onDragEnd}>
+      <>
+        <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} boardTitle={this.state.boardTitle} />
+        <Droppable droppableId='anywhere' direction='horizontal' type='column'>
+          {provided => (
+            <div className="h-screen w-screen absolute" {...provided.droppableProps} ref={provided.innerRef} >
+              <div className="relative mt-10 h-screen px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
+                {this.state.lists.map((list, index) => (
+                  <Draggable draggableId={`column-${list.sortOrder}`} index={index} key={list.listId}>
+                    {provided => (
+                      <div
+                        className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        index={index}
+                       >
+                        <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+              </div>
+             {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </>
+    </DragDropContext>
     );
   }
 }

@@ -122,8 +122,15 @@ app.post('/api/lists', (req, res, next) => {
   const { title, boardId, sortOrder } = req.body;
   if (!title) {
     throw new ClientError(400, 'title is a required field');
-  } else if (!boardId || !sortOrder) {
-    throw new ClientError(400, 'boardId and sortOrder must be defined');
+  }
+  if (!boardId) {
+    throw new ClientError(400, 'board must be defined');
+  }
+  if (!sortOrder) {
+    throw new ClientError(400, 'sortOrder is a required field');
+  }
+  if (!Number.isInteger(sortOrder)) {
+    throw new ClientError(400, 'sortOrder must be an integer');
   }
   const sql = `
   insert into "lists" ("title", "boardId", "sortOrder")
@@ -135,6 +142,26 @@ app.post('/api/lists', (req, res, next) => {
     .then(result => {
       const list = result.rows[0];
       res.status(201).json(list);
+    })
+    .catch(err => next(err));
+});
+
+app.patch('/api/listorder', (req, res, next) => {
+  const sql = `
+  with "newSortOrder" as (
+   select "listId",
+        (row_number() over ()) - 1 as "sortOrder"
+  from unnest($1::integer[]) as "listId"
+  )
+  update "lists" as "l"
+    set "sortOrder" = "nso"."sortOrder"
+    from (select * from "newSortOrder") as "nso"
+   where "l"."listId" = "nso"."listId"
+  `;
+  const params = [req.body];
+  db.query(sql, params)
+    .then(result => {
+      res.end();
     })
     .catch(err => next(err));
 });
