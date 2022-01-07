@@ -1,6 +1,6 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import KanbanBanner from './kanban-banner';
+import KanbanBanner from '../components/kanban-banner';
 
 export default class Lists extends React.Component {
   constructor(props) {
