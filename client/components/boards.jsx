@@ -34,23 +34,44 @@ export default class Lists extends React.Component {
       .catch(err => console.error(err));
   }
 
-  onDragEnd(result) {
-    const { destination, source, type } = result;
-    if (!destination) {
-      return;
-    }
-    if (destination.droppableId === source.droppableId && destination.index === source.index) {
-      return;
-    }
-    if (type === 'column') {
-      const [newListOrder] = this.state.lists.splice(source.index, 1);
-      this.state.lists.splice(destination.index, 0, newListOrder);
-      this.setState({ lists: this.state.lists });
-    }
-  }
+  // onDragEnd(result) {
+  //   const { destination, source, type } = result;
+  //   if (!destination) {
+  //     return;
+  //   }
+  //   if (destination.droppableId === source.droppableId && destination.index === source.index) {
+  //     return;
+  //   }
+  //   if (type === 'column') {
+  //     const [newListOrder] = this.state.lists.splice(source.index, 1);
+  //     console.log('listobject being moved', newListOrder);
+  //     this.state.lists.splice(destination.index, 0, newListOrder);
+  //     this.setState({ lists: this.state.lists });
+  //     for (let list = 0; list < this.state.lists.length; list++) {
+  //       const [sortOrder] = [list];
+  //       console.log('sortOrderUpdate', sortOrder);
+  //       fetch('/api/listorder', {
+  //         method: 'PATCH',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify(sortOrder)
+  //       })
+  //         .then(res => res.json())
+  //         .then(sortOrderUpdate => {
+  //           const copyList = this.state.lists.slice();
+  //           copyList[list].sortOrder = list;
+  //           this.setState({ lists: copyList });
+  //           console.log('WHAT IS THIS', this.state.lists);
+  //         })
+  //         .catch(err => console.error(err));
+  //     }
+  //   }
+  // }
 
   render(props) {
     if (!this.state.lists) return null;
+    // console.log('current list position', this.state.lists);
     return (
     <DragDropContext onDragEnd={this.onDragEnd}>
       <>
