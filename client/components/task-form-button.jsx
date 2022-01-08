@@ -15,7 +15,7 @@ export default class TaskForm extends React.Component {
   }
 
   handleClick() {
-    this.setState({ isClicked: !this.state.isClicked });
+    this.setState({ title: '', isClicked: !this.state.isClicked });
   }
 
   handleChange(event) {
