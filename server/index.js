@@ -166,7 +166,7 @@ app.patch('/api/listorder', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/lists/:listId', (req, res, next) => {
+app.get('/api/list/:listId', (req, res, next) => {
   const listId = Number(req.params.listId);
   const sql = `
   select "l".*,
