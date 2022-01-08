@@ -2,7 +2,6 @@ import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import KanbanBanner from './kanban-banner';
 import TaskList from './tasks';
-import TaskForm from './task-form-button';
 
 export default class Lists extends React.Component {
   constructor(props) {
@@ -67,7 +66,7 @@ export default class Lists extends React.Component {
     }
   }
 
-  render(props) {
+  render() {
     if (!this.state.lists) return null;
     return (
     <DragDropContext onDragEnd={this.onDragEnd}>
@@ -88,7 +87,6 @@ export default class Lists extends React.Component {
                        >
                         <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
                         <TaskList listId={list.listId}/>
-                        <TaskForm />
                       </div>
                     )}
                   </Draggable>
