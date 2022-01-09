@@ -1,6 +1,6 @@
 import React from 'react';
 import TaskForm from './task-form-button';
-import { ViewGridIcon } from '@heroicons/react/outline';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default class TaskList extends React.Component {
   constructor(props) {
@@ -36,25 +36,26 @@ export default class TaskList extends React.Component {
     if (!this.state.tasks) return null;
     return (
       <>
-        <div className="flow-root mt-10">
-          <ul role="task-list" className="-my-5">
-            {this.state.tasks.map(task => (
-              <li key={task.taskId} className="py-4 rounded-md mb-10 bg-gray-100 shadow-md">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="ml-5 text-sm font-medium text-gray-900 truncate">{task.title}</p>
-                  </div>
-                  <div>
-                    <ViewGridIcon
-                      className="h-5 w-5 mr-5 text-gray-500"
-                    >
-                    </ViewGridIcon>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Droppable droppableId={`column-${this.props.listId}`}>
+          {provided => (
+            <div className="flow-root mt-10" {...provided.droppableProps} ref={provided.innerRef}>
+              <div role="task-list" className="-my-5">
+                {this.state.tasks.map((task, index) => (
+                  <Draggable key={task.taskId} draggableId={`task - ${task.taskId}`} index={index}>
+                    {provided => (
+                      <div className="py-4 rounded-md mb-10 bg-gray-100 shadow-md" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                        <div className="flex items-center space-x-4 ">
+                          <p className="ml-5 text-sm font-medium text-gray-900 truncate">{task.title}</p>
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+              </div>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
         <TaskForm onSubmit={this.addTask} listId={this.props.listId}/>
       </>
     );
