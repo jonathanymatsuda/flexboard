@@ -68,6 +68,7 @@ export default class Lists extends React.Component {
 
   render() {
     if (!this.state.lists) return null;
+    // console.log(this.state.lists);
     return (
     <DragDropContext onDragEnd={this.onDragEnd}>
       <>

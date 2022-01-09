@@ -6,7 +6,7 @@ import WorkspaceListView from './pages/workspace-listview';
 import AllBoardsListView from './pages/all-boards-listview';
 import BoardForm from './components/board-form';
 import BoardListView from './pages/board-listview';
-import Lists from './components/boards';
+import Lists from './components/lists';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -82,7 +82,7 @@ export default class App extends React.Component {
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="flex-shrink-0 flex items-center">
                       <img
-                        className="h-8 w-auto mr-1 text-white"
+                        className="h-8 w-auto mr-1"
                         src="https://static.thenounproject.com/png/8750-84.png"
                         alt="Flexbox"
                       />
