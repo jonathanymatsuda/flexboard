@@ -77,7 +77,7 @@ export default class Lists extends React.Component {
               <div className="h-screen w-screen bg-blue-100 absolute" {...provided.droppableProps} ref={provided.innerRef} >
               <div className="relative mt-10 h-screen px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
                 {this.state.lists.map((list, index) => (
-                  <Draggable draggableId={`column-${list.sortOrder}`} index={index} key={list.listId}>
+                  <Draggable draggableId={`list-${list.sortOrder}`} index={index} key={list.listId}>
                     {provided => (
                       <div
                         className="relative p-8 bg-white border border-gray-200 rounded-sm shadow-lg w-96"
@@ -86,7 +86,7 @@ export default class Lists extends React.Component {
                         index={index}
                        >
                         <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
-                        <TaskList listId={list.listId}/>
+                        <TaskList listId={list.listId} lists={this.state.lists}/>
                       </div>
                     )}
                   </Draggable>

@@ -82,9 +82,9 @@ export default class App extends React.Component {
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="flex-shrink-0 flex items-center">
                       <img
-                        className="h-8 w-auto mr-1"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
-                        alt="Workflow"
+                        className="h-8 w-auto mr-1 text-white"
+                        src="https://static.thenounproject.com/png/8750-84.png"
+                        alt="Flexbox"
                       />
                       <h2 className='text-white font-bold'>Flexboard</h2>
                     </div>
