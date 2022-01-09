@@ -62,7 +62,7 @@ export default class KanbanBanner extends React.Component {
                       <div className="shadow sm:rounded-md sm:overflow-hidden">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                           <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="list-title" className="block text-sm font-medium text-gray-700">
                               List Name
                             </label>
                             <div className="mt-1">

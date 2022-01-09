@@ -1,6 +1,7 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import KanbanBanner from './kanban-banner';
+import TaskList from './tasks';
 
 export default class Lists extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export default class Lists extends React.Component {
     }
   }
 
-  render(props) {
+  render() {
     if (!this.state.lists) return null;
     return (
     <DragDropContext onDragEnd={this.onDragEnd}>
@@ -73,7 +74,7 @@ export default class Lists extends React.Component {
         <KanbanBanner onSubmit={this.addList} boardId={this.props.boardId} boardTitle={this.state.boardTitle} />
         <Droppable droppableId='anywhere' direction='horizontal' type='column'>
           {provided => (
-            <div className="h-screen w-screen absolute" {...provided.droppableProps} ref={provided.innerRef} >
+              <div className="h-screen w-screen bg-blue-100 absolute" {...provided.droppableProps} ref={provided.innerRef} >
               <div className="relative mt-10 h-screen px-8 flex gap-x-8 overflow-x-auto overflow-y-auto">
                 {this.state.lists.map((list, index) => (
                   <Draggable draggableId={`column-${list.sortOrder}`} index={index} key={list.listId}>
@@ -85,6 +86,7 @@ export default class Lists extends React.Component {
                         index={index}
                        >
                         <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
+                        <TaskList listId={list.listId}/>
                       </div>
                     )}
                   </Draggable>

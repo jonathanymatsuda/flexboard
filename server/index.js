@@ -126,7 +126,7 @@ app.post('/api/lists', (req, res, next) => {
   if (!boardId) {
     throw new ClientError(400, 'board must be defined');
   }
-  if (!sortOrder) {
+  if (sortOrder === undefined) {
     throw new ClientError(400, 'sortOrder is a required field');
   }
   if (!Number.isInteger(sortOrder)) {
@@ -162,6 +162,56 @@ app.patch('/api/listorder', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       res.end();
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/list/:listId', (req, res, next) => {
+  const listId = Number(req.params.listId);
+  const sql = `
+  select "l".*,
+      coalesce(json_agg("t" order by "t"."sortOrder")
+      filter (where "t"."taskId" is not null), '[]'::json) as "tasks"
+      from "lists" as "l"
+    left join "tasks" as "t" using ("listId")
+   where "l"."listId" = $1
+   group by "l"."listId"
+  `;
+  const params = [listId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/tasks', (req, res, next) => {
+  const { title, listId, sortOrder, priority = false } = req.body;
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  }
+  if (!listId) {
+    throw new ClientError(400, 'list must be defined');
+  }
+  if (sortOrder === undefined) {
+    throw new ClientError(400, 'sortOrder is a required field');
+  }
+  if (!Number.isInteger(sortOrder)) {
+    throw new ClientError(400, 'sortOrder must be an integer');
+  }
+  if (typeof priority !== 'boolean') {
+    throw new ClientError(400, 'priority (boolean) is a required field');
+  }
+  const sql = `
+  insert into "tasks" ("title", "listId", "sortOrder", "priority")
+  values ($1, $2, $3, $4)
+  returning *
+  `;
+  const params = [title, listId, sortOrder, priority];
+  db.query(sql, params)
+    .then(result => {
+      const list = result.rows[0];
+      res.status(201).json(list);
     })
     .catch(err => next(err));
 });
