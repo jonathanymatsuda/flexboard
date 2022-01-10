@@ -44,7 +44,7 @@ export default class TaskList extends React.Component {
                   <Draggable key={task.taskId} draggableId={`task-${task.taskId}`} index={index}>
                     {provided => (
                       <div className="py-4 rounded-md mb-10 bg-gray-100 shadow-md" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        <div className="flex items-center space-x-4 ">
+                        <div className="flex items-center space-x-4">
                           <p className="ml-5 text-sm font-medium text-gray-900 truncate">{task.title}</p>
                         </div>
                       </div>

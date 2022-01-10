@@ -68,7 +68,6 @@ export default class Lists extends React.Component {
 
   render() {
     if (!this.state.lists) return null;
-    // console.log(this.state.lists);
     return (
     <DragDropContext onDragEnd={this.onDragEnd}>
       <>
@@ -87,7 +86,7 @@ export default class Lists extends React.Component {
                         index={index}
                        >
                         <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
-                        <TaskList listId={list.listId} lists={this.state.lists}/>
+                        <TaskList listId={list.listId} lists={this.state.lists} />
                       </div>
                     )}
                   </Draggable>

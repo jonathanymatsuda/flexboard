@@ -83,7 +83,7 @@ export default class App extends React.Component {
                     <div className="flex-shrink-0 flex items-center">
                       <img
                         className="h-8 w-auto mr-1"
-                        src="https://static.thenounproject.com/png/8750-84.png"
+                        src="https://cdn-icons.flaticon.com/png/128/1296/premium/1296454.png?token=exp=1641798347~hmac=105e87187b2eb5f2e8201e5d90f8feeb"
                         alt="Flexbox"
                       />
                       <h2 className='text-white font-bold'>Flexboard</h2>
