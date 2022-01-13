@@ -7,12 +7,19 @@ export default class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: null,
+      lists: {},
       boardTitle: ''
     };
     this.addList = this.addList.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
+
+  // addTask(list, task) {
+  //   // massage data
+  //   // update state in the master component
+  //   // make API request for PATCH/PUT
+  //   // this function gets passed to the child task component
+  // }
 
   componentDidMount() {
     fetch(`/api/boards/${this.props.boardId}`)
@@ -44,27 +51,37 @@ export default class Lists extends React.Component {
       return;
     }
     if (type === 'column') {
-      const [newListOrder] = this.state.lists.splice(source.index, 1);
-      this.state.lists.splice(destination.index, 0, newListOrder);
-      this.setState({ lists: this.state.lists });
-      const listIdArray = [];
-      for (let list = 0; list < this.state.lists.length; list++) {
-        listIdArray.push(this.state.lists[list].listId);
-      }
-      fetch('/api/listorder', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(listIdArray)
-      })
-        .then(res => res.text())
-        .then(() => {
-          this.setState({ lists: this.state.lists });
-        })
-        .catch(err => console.error(err));
+      this.onDragEndColumn(source, destination);
+    } else if (type === 'task') {
+      this.onDragEndTask();
     }
   }
+
+  onDragEndColumn(source, destination) {
+    const [newListOrder] = this.state.lists.splice(source.index, 1);
+    this.state.lists.splice(destination.index, 0, newListOrder);
+    this.setState({ lists: this.state.lists });
+    const listIdArray = [];
+    for (let list = 0; list < this.state.lists.length; list++) {
+      listIdArray.push(this.state.lists[list].listId);
+    }
+    fetch('/api/listorder', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(listIdArray)
+    })
+      .then(res => res.text())
+      .then(() => {
+        this.setState({ lists: this.state.lists }); // look at this
+      })
+      .catch(err => console.error(err));
+  }
+
+  // onDragEndTask() {
+  //   //...
+  // }
 
   render() {
     if (!this.state.lists) return null;
@@ -86,7 +103,7 @@ export default class Lists extends React.Component {
                         index={index}
                        >
                         <h3 {...provided.dragHandleProps} className="text-xl text-left font-semibold text-gray-900">{list.title}</h3>
-                        <TaskList listId={list.listId} lists={this.state.lists} />
+                        <TaskList listId={list.listId} lists={this.state.lists} addTask={this.addTask} />
                       </div>
                     )}
                   </Draggable>

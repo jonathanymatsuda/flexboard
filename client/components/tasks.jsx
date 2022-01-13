@@ -56,7 +56,7 @@ export default class TaskList extends React.Component {
             </div>
           )}
         </Droppable>
-        <TaskForm onSubmit={this.addTask} listId={this.props.listId} />
+        <TaskForm onSubmit={this.props.addTask} listId={this.props.listId} />
       </>
     );
   }
