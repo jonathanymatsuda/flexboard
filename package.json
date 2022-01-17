@@ -5,7 +5,7 @@
   "description": "A full stack JavaScript solo project.",
   "main": "server/index.js",
   "scripts": {
-    "build": "webpack --mode=production && npx tailwindcss -i ./src/input.css -o ./server/public/output.css --watch",
+    "build": "webpack --mode=production && npx tailwindcss -i ./src/input.css -o ./server/public/output.css",
     "start": "node server/index.js",
     "dev": "npm-run-all --silent --parallel dev:*",
     "dev:client": "webpack serve --mode=development",
