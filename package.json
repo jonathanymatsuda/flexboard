@@ -15,6 +15,7 @@
     "postinstall": "npx browserslist@latest --update-db"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.1",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
@@ -32,7 +33,6 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-react-jsx": "^7.16.0",
-    "autoprefixer": "^10.4.1",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
     "eslint": "^7.29.0",
